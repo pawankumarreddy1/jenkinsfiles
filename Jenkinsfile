@@ -11,9 +11,9 @@ pipeline {
          stage('cd') {
             steps {
                 sh 'rm -fr *'
-                sh 'aws s3 cp s3://pavan123-bucket/html-helloworld-$BUILD_NUMBER.zip .'
+                sh 'aws s3 cp s3://pavanm123/html-helloworld-$BUILD_NUMBER.zip .'
                 sh 'unzip html-helloworld-$BUILD_NUMBER.zip'
-                sh 'scp index.html root@10.0.0.225:/var/www/html/'
+                sh 'scp index.html root@10.0.0.177:/var/www/html/'
             }
         }
     }

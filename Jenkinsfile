@@ -5,7 +5,7 @@ pipeline {
         stage('ci') {
             steps {
                 sh 'zip -r html-helloworld-$BUILD_NUMBER.zip *'
-                sh 'aws s3 cp html-helloworld-$BUILD_NUMBER.zip s3://pavan123-bucket/'
+                sh 'aws s3 cp html-helloworld-$BUILD_NUMBER.zip s3://pavanm123/'
             }
         }
          stage('cd') {

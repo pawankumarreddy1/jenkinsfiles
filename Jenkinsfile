@@ -4,16 +4,17 @@ pipeline {
     stages {
         stage('ci') {
             steps {
-                sh 'zip -r html-helloworld-$BUILD_NUMBER.zip *'
-                sh 'aws s3 cp html-helloworld-$BUILD_NUMBER.zip s3://pavanm123/'
+                sh 'zip -r index.html.zip . -i *'
+                sh 'aws s3 mb s3://anand-pavan-2'
+                sh 'aws s3 cp index.html.zip s3://anand-pavan-2 '
+                
             }
         }
-         stage('cd') {
+        stage('cd') {
             steps {
-                sh 'rm -fr *'
-                sh 'aws s3 cp s3://pavanm123/html-helloworld-$BUILD_NUMBER.zip .'
-                sh 'unzip html-helloworld-$BUILD_NUMBER.zip'
-                sh 'scp index.html root@10.0.0.177:/var/www/html/'
+                sh 'aws s3 cp s3://anand-pavan-2/index.html.zip . '
+                sh 'unzip index.html.zip '
+                
             }
         }
     }

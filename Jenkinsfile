@@ -14,6 +14,8 @@ pipeline {
             steps {
                 sh 'aws s3 cp s3://anand-pavan-2/index.html.zip . '
                 sh 'unzip index.html.zip '
+                sh 'ssh root@172.31.52.141 '
+                sh 'scp index.html root@172.31.52.141:"/var/www/html/"
                 
             }
         }

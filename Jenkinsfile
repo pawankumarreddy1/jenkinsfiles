@@ -1,21 +1,32 @@
 pipeline {
     agent any
-
+    tools{
+        maven "Maven"
+    }
+    
     stages {
-        stage('ci') {
+        stage('Build') {
             steps {
-                sh 'zip -r index.html-$BUILD_NUMBER.zip . -i *'
-                sh 'aws s3 mb s3://abdul-pavan'
-                sh 'aws s3 cp index.html-$BUILD_NUMBER.zip s3://abdul-pavan '
-                
+                sh script: 'mvn clean package'
             }
         }
-        stage('cd') {
+        stage('uplosd files to nexus') {
             steps {
-                sh 'rm -fr * '
-                sh 'aws s3 cp s3://abdul-pavan/index.html-$BUILD_NUMBER.zip . '
-                sh 'unzip index.html-$BUILD_NUMBER.zip '
-                sh 'scp index.html root@172.31.51.220:"/var/www/html/" '
+                nexusArtifactUploader artifacts: [
+                    [
+                        artifactId: 'spring-framework-petclinic', 
+                        classifier: '', 
+                        file: '/target/Spring Framework Petclinic-5.3.22.war', 
+                        type: 'war'
+                    ]
+                ], 
+                credentialsId: 'nexus3', 
+                groupId: 'org.springframework.samples', 
+                nexusUrl: '172.31.30.144:8081', 
+                nexusVersion: 'nexus3', 
+                protocol: 'http', 
+                repository: 'jenkins-pavan', 
+                version: '5.3.22'
                 
             }
         }
